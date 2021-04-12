@@ -56,7 +56,7 @@ import { EntityPicker } from "../grapher/controls/entityPicker/EntityPicker"
 import classNames from "classnames"
 import { ColumnTypeNames, CoreColumnDef } from "../coreTable/CoreColumnDef"
 import { BlankOwidTable, OwidTable } from "../coreTable/OwidTable"
-import { BAKED_BASE_URL } from "../settings/clientSettings"
+import { BAKED_BASE_URL, ENV } from "../settings/clientSettings"
 import {
     explorerUrlMigrationsById,
     migrateExplorerUrl,
@@ -66,6 +66,7 @@ import { ExplorerPageUrlMigrationSpec } from "./urlMigrations/ExplorerPageUrlMig
 import { setSelectedEntityNamesParam } from "../grapher/core/EntityUrlBuilder"
 import { PromiseCache } from "../clientUtils/PromiseCache"
 import { PromiseSwitcher } from "../clientUtils/PromiseSwitcher"
+import { GrapherAnalytics } from "../grapher/core/GrapherAnalytics"
 
 export interface ExplorerProps extends SerializedGridProgram {
     grapherConfigs?: GrapherInterface[]
@@ -173,6 +174,9 @@ export class Explorer
             undefined,
             this.explorerProgram.entityType
         )
+
+    analytics = new GrapherAnalytics(ENV)
+    analyticsNamespace = `explorer-${this.explorerProgram.slug}`
 
     @observable.ref grapher?: Grapher
 

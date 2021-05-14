@@ -12,19 +12,17 @@ An example of what this can make (click for interactive):
 
 The owid-grapher visualization frontend code can run isomorphically under node to render data directly to an SVG string, which is how the above image works!
 
-## Initial development setup
+## Developing
 
-### macOS
+The following steps will get you started with a development environment.
+
+### 1. Install dependencies and start services
+
+#### macOS
 
 1. Install Homebrew first, follow the instructions here: <https://brew.sh/>
 
-2. Install Homebrew services:
-
-    ```sh
-    brew tap homebrew/services
-    ```
-
-3. Install nvm:
+2. Install nvm:
 
     ```sh
     brew update
@@ -32,49 +30,59 @@ The owid-grapher visualization frontend code can run isomorphically under node t
     source $(brew --prefix nvm)/nvm.sh
     ```
 
-4. Install Node 12.13.1+:
+3. Install Node 12.13.1+:
 
     ```sh
     nvm install 12.13.1
     ```
 
-5. Install MySQL 5.7:
-
-    ```sh
-    brew install mysql@5.7
-    ```
-
-6. Start the MySQL service:
-
-    ```sh
-    brew services start mysql@5.7
-    ```
-
-7. Install yarn:
+4. Install yarn:
 
     ```sh
     npm install -g yarn
     ```
 
-8. Git clone the "owid-content" folder as a sibling to owid-grapher:
+5. Git clone the "owid-content" folder as a sibling to owid-grapher:
 
     ```bash
     git clone https://github.com/owid/owid-content
     ```
 
-9. Inside the repo folder, install all dependencies by running:
+6. Inside the repo folder, install all dependencies by running:
 
     ```sh
     yarn
     ```
 
-### Other platforms
+7. Install lando:
+
+    ```sh
+    brew install lando
+    ```
+
+8. (Optional) Create a .env file in `wordpress/` for your settings:
+
+    ```sh
+    cd wordpress
+    cp .env.example .env
+    ```
+
+9. Start services with lando:
+
+    ```sh
+    cd wordpress
+    lando start
+    ```
+
+If this succeeds, you are now ready to run the three development services.
+
+#### Other platforms
 
 You will need: [MySQL 5.7](https://www.mysql.com/), [Node 12.13.1+](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/en/). Running `yarn` in the repo root will grab the remaining dependencies.
 
-## Database setup
+### 2. Configure your database
 
-### Remove the password
+#### Remove the password
 
 Remove the password for root by opening the MySQL shell with `mysql` and running:
 
@@ -84,7 +92,7 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY ''
 
 We do this for convenience so we can run `mysql` commands without providing a password each time. You can also set a password, just make sure you include it in your settings file later.
 
-### Import the latest data extract
+#### Import the latest data extract
 
 Daily exports from the live OWID database are published here and can be used for testing:
 
@@ -103,11 +111,11 @@ Note that the `data_values` table will be incomplete – it will only contain da
 
 ### Inspecting the database
 
-On macOS, we recommend using [Sequel Pro](http://www.sequelpro.com/) (it's free).
+On macOS, we recommend using [Sequel Ace](https://apps.apple.com/se/app/sequel-ace/id1518036000?l=en&mt=12) (it's free).
 
 We also have [**a rough sketch of the schema**](https://user-images.githubusercontent.com/1308115/64631358-d920e680-d3ee-11e9-90a7-b45d942a7259.png) as it was on November 2019 (there may be slight changes).
 
-## Development server
+### 3. Development server
 
 Set up your `.env` file by copying the example:
 
